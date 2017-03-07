@@ -19,8 +19,8 @@ namespace LanguageTranslator
 {
     internal static class Program
     {
-        private const string VersionUrl = "https://raw.githubusercontent.com/jachicao/EloBuddy/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
-        private const string JsonUrl = "https://raw.githubusercontent.com/jachicao/EloBuddy/master/LanguageTranslator/LanguageTranslator/Translations.json";
+        private const string VersionUrl = "https://raw.githubusercontent.com/doudouwudi/SuperL-3.0/master/LanguageTranslator/Properties/AssemblyInfo.cs";
+        private const string JsonUrl = "https://raw.githubusercontent.com/doudouwudi/SuperL-3.0/master/LanguageTranslator/Translations.json";
         private const string VersionRegex = @"\[assembly\: AssemblyVersion\(""(\d+\.\d+\.\d+\.\d+)""\)\]";
         private static string _jsonPath;
         private static string _programDirectory;
@@ -150,10 +150,10 @@ namespace LanguageTranslator
             {
                 _ready = false;
                 _loaded = true;
-                _menu = MainMenu.AddMenu("BOOS汉化菜单", "LanguageTranslator");
+                _menu = MainMenu.AddMenu("Super基础汉化", "LanguageTranslator");
                 var languagesAvailable = Enum.GetValues(typeof (Language)).Cast<Language>().ToArray().Select(i => i.ToString());
                 var currentLanguage = (int) CurrentCulture;
-                var comboBox = _menu.Add("Language", new ComboBox("EB脚本交流群 101093205", languagesAvailable, currentLanguage));
+                var comboBox = _menu.Add("Language", new ComboBox("Super L# 3.0", languagesAvailable, currentLanguage));
                 comboBox.OnValueChange += delegate(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args) { Translate((Language) args.OldValue, (Language) args.NewValue); };
                 var saveCheckBox = _menu.Add("Save", new CheckBox("保存当前的插件名称", false));
                 saveCheckBox.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
