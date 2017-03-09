@@ -87,7 +87,7 @@
                   "19": "Tespit Edilen Büyüler:"
             },
             "Chinese": {
-                  "0": "主要",
+                  "0": "Super基础设置",
                   "1": "每秒点击次数",
                   "2": "         建议数值：25.",
                   "3": "Note: Ticks per second means how often the Game.OnTick event should be fired.",
@@ -107,7 +107,7 @@
                   "17": "最大延迟 (默认 350)"
             },
             "ChineseTraditional": {
-                  "0": "主要",
+                  "0": "Super基础设置",
                   "1": "每秒點擊次數",
                   "2": "         建議數值：25.",
                   "3": "Note: Ticks per second means how often the Game.OnTick event should be fired.",
@@ -265,7 +265,7 @@
                   "15": "Sadece Seçilen Hedefe Saldır Kısayol Tuşu"
             },
             "Chinese": {
-                  "0": "目标选择器",
+                  "0": "Super目标选择",
                   "1": "目标选择器模式",
                   "2": "已选择模式:",
                   "3": "自动",
@@ -283,7 +283,7 @@
                   "15": "只有进攻选择目标切换"
             },
             "ChineseTraditional": {
-                  "0": "目標選擇器",
+                  "0": "Super目标选择",
                   "1": "目標選擇器模式",
                   "2": "已選擇模式:",
                   "3": "自動",
@@ -553,7 +553,7 @@
                   "45": "Yasuo Duvarına Vurma"
             },
             "Chinese": {
-                  "0": "走砍",
+                  "0": "Super走砍设置",
                   "1": "热键/快捷键",
                   "2": "连招",
                   "3": "骚扰",
@@ -601,7 +601,7 @@
                   "45": "不要攻击亚索风墙"
             },
             "ChineseTraditional": {
-                  "0": "走砍",
+                  "0": "Super走砍设置",
                   "1": "熱鍵/快捷鍵",
                   "2": "連招",
                   "3": "騷擾",
@@ -751,7 +751,7 @@
                   "10": "Kesişmeyi hesaplarken objelere alan ekle"
             },
             "Chinese": {
-                  "0": "预判",
+                  "0": "Super预判设置",
                   "1": "预判选择:",
                   "2": "SDK 预判",
                   "3": "SDK 测试版预判",
@@ -764,7 +764,7 @@
                   "10": "在计算时增加目标的命中格."
             },
             "ChineseTraditional": {
-                  "0": "預判",
+                  "0": "Super预判设置",
                   "1": "預判選擇:",
                   "2": "SDK 預判",
                   "3": "SDK 測試版預判",
@@ -1044,7 +1044,7 @@
                   "60": "Ben eğer tuzak ve ward yerinde durmuyorsa daireyi göstermem örnek caitin tuzağına biri düşerse daireyi kapatırım çünkü tuzak kalmaz."
             },
             "Chinese": {
-                  "0": "神意识",
+                  "0": "Super神圣意识",
                   "1": "欢迎使用神意识，您的游戏品质帮助解决.",
                   "2": "这个插件提供了一些简洁的功能，这将提高你的游戏",
                   "3": "不放弃FPS游戏或乐趣.",
@@ -1107,7 +1107,7 @@
                   "60": "I will avoid always drawing the spell and instead only draw when there is no vision."
             },
             "ChineseTraditional": {
-                  "0": "神意識",
+                  "0": "Super神圣意识",
                   "1": "歡迎使用神意識，您的遊戲品質幫助解決.",
                   "2": "這個插件提供了一些簡潔的功能，這將提高你的遊戲",
                   "3": "不放棄FPS遊戲或樂趣.",
