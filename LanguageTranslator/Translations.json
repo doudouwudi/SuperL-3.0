@@ -6147,7 +6147,18 @@
                   "12": "Use Q in Jungle Clear",
                   "13": "Use W in Jungle Clear",
                   "14": "Use E in Jungle Clear",
-                  "15": "Use R in Jungle Clear"
+                  "15": "Use R in Jungle Clear",
+                  "16": "Anti-Gapcloser",
+                  "17": "Interrupter",
+                  "18": "Draw Q range",
+                  "19": "Draw W range",
+                  "20": "Draw E range",
+                  "21": "Draw R range",
+                  "22": "Harass",
+                  "23": "Lane clear",
+                  "24": "Jungle clear",
+                  "25": "Misc",
+                  "26": "Change color"
             },
             "Chinese": {
                   "0": "连招设置",
@@ -6165,7 +6176,18 @@
                   "12": "使用 Q 打野",
                   "13": "使用 W 打野",
                   "14": "使用 E 打野",
-                  "15": "使用 R 打野"
+                  "15": "使用 R 打野",
+                  "16": "反突设置",
+                  "17": "打断设置",
+                  "18": "画出 Q 范围",
+                  "19": "画出 W 范围",
+                  "20": "画出 E 范围",
+                  "21": "画出 R 范围",
+                  "22": "骚扰设置",
+                  "23": "清线设置",
+                  "24": "打野设置",
+                  "25": "其他设置",
+                  "26": "修改颜色"
             },
             "ChineseTraditional": {
                   "0": "Combo",
@@ -6183,7 +6205,18 @@
                   "12": "Use Q in Jungle Clear",
                   "13": "Use W in Jungle Clear",
                   "14": "Use E in Jungle Clear",
-                  "15": "Use R in Jungle Clear"
+                  "15": "Use R in Jungle Clear",
+                  "16": "Anti-Gapcloser",
+                  "17": "Interrupter",
+                  "18": "Draw Q range",
+                  "19": "Draw W range",
+                  "20": "Draw E range",
+                  "21": "Draw R range",
+                  "22": "Harass",
+                  "23": "Lane clear",
+                  "24": "Jungle clear",
+                  "25": "Misc",
+                  "26": "Change color"
             },      
             "Vietnamese": {
                   "0": "Combo",
@@ -6201,7 +6234,18 @@
                   "12": "Use Q in Jungle Clear",
                   "13": "Use W in Jungle Clear",
                   "14": "Use E in Jungle Clear",
-                  "15": "Use R in Jungle Clear"
+                  "15": "Use R in Jungle Clear",
+                  "16": "Anti-Gapcloser",
+                  "17": "Interrupter",
+                  "18": "Draw Q range",
+                  "19": "Draw W range",
+                  "20": "Draw E range",
+                  "21": "Draw R range",
+                  "22": "Harass",
+                  "23": "Lane clear",
+                  "24": "Jungle clear",
+                  "25": "Misc",
+                  "26": "Change color"
             },
             "Turkish": {
                   "0": "Combo",
@@ -6219,7 +6263,18 @@
                   "12": "Use Q in Jungle Clear",
                   "13": "Use W in Jungle Clear",
                   "14": "Use E in Jungle Clear",
-                  "15": "Use R in Jungle Clear"
+                  "15": "Use R in Jungle Clear",
+                  "16": "Anti-Gapcloser",
+                  "17": "Interrupter",
+                  "18": "Draw Q range",
+                  "19": "Draw W range",
+                  "20": "Draw E range",
+                  "21": "Draw R range",
+                  "22": "Harass",
+                  "23": "Lane clear",
+                  "24": "Jungle clear",
+                  "25": "Misc",
+                  "26": "Change color"
             }
       }
 }
