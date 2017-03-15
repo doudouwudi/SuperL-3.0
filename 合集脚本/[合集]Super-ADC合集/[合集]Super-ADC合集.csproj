@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53B7E088-45ED-41D1-A3A3-EA5C33B6C402}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Marksman_Master</RootNamespace>
+    <AssemblyName>Marksman Master</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EloBuddy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7339047cb10f6e86, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.dll</HintPath>
+    </Reference>
+    <Reference Include="EloBuddy.Sandbox, Version=1.0.6138.30748, Culture=neutral, PublicKeyToken=d671ef5d8e7e69a5, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.Sandbox.dll</HintPath>
+    </Reference>
+    <Reference Include="EloBuddy.SDK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6b574a82b1ea937e, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=2306ab36a61019a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.6.3.0, Culture=neutral, PublicKeyToken=2306ab36a61019a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activator\Activator.cs" />
+    <Compile Include="Activator\Item.cs" />
+    <Compile Include="Activator\ItemsCollection.cs" />
+    <Compile Include="Activator\Items\Gunblade.cs" />
+    <Compile Include="Activator\Items\Cutlass.cs" />
+    <Compile Include="Activator\Items\Ghostblade.cs" />
+    <Compile Include="Activator\Items\Scimitar.cs" />
+    <Compile Include="Activator\Items\RefillablePotion.cs" />
+    <Compile Include="Activator\Items\ElixirofWrath.cs" />
+    <Compile Include="Activator\Items\ElixirofSorcery.cs" />
+    <Compile Include="Activator\Items\ElixirofIron.cs" />
+    <Compile Include="Activator\Items\CorruptingPotion.cs" />
+    <Compile Include="Activator\Items\HuntersPotion.cs" />
+    <Compile Include="Activator\Items\Botrk.cs" />
+    <Compile Include="Activator\Items\HealthPotion.cs" />
+    <Compile Include="Activator\Items\Quicksilver.cs" />
+    <Compile Include="Cache\Cache.cs" />
+    <Compile Include="Cache\Interfaces\ICachable.cs" />
+    <Compile Include="Cache\Modules\CacheModuleBase.cs" />
+    <Compile Include="Cache\Modules\CustomCache.cs" />
+    <Compile Include="Cache\Modules\Distance.cs" />
+    <Compile Include="Cache\Modules\IsInRange.cs" />
+    <Compile Include="Cache\Modules\IsValidTarget.cs" />
+    <Compile Include="Cache\Modules\MinionCache.cs" />
+    <Compile Include="Extensions\BaseUlt\BaseUlt.cs" />
+    <Compile Include="Extensions\ExtensionBase.cs" />
+    <Compile Include="Extensions\SkinHack\SkinHack.cs" />
+    <Compile Include="Interfaces\IExtension.cs" />
+    <Compile Include="PermaShow\Interfaces\IDrawable.cs" />
+    <Compile Include="PermaShow\Interfaces\IModule.cs" />
+    <Compile Include="PermaShow\Interfaces\IPermaShowItem.cs" />
+    <Compile Include="PermaShow\Interfaces\IValue.cs" />
+    <Compile Include="PermaShow\Interfaces\IPermaShow.cs" />
+    <Compile Include="PermaShow\ItemTypes.cs" />
+    <Compile Include="PermaShow\Modules\DataHandlerModule.cs" />
+    <Compile Include="PermaShow\Separator.cs" />
+    <Compile Include="PermaShow\Values\BoolItem.cs" />
+    <Compile Include="PermaShow\Values\MenuItem.cs" />
+    <Compile Include="PermaShow\Modules\DrawModule.cs" />
+    <Compile Include="PermaShow\Modules\ModuleBase.cs" />
+    <Compile Include="PermaShow\Modules\CreateMenuModule.cs" />
+    <Compile Include="PermaShow\Modules\Wrapper.cs" />
+    <Compile Include="PermaShow\PermaShow.cs" />
+    <Compile Include="PermaShow\PermashowBase.cs" />
+    <Compile Include="PermaShow\Text.cs" />
+    <Compile Include="PermaShow\Values\StringItem.cs" />
+    <Compile Include="PermaShow\Values\ValueBase.cs" />
+    <Compile Include="Bootstrap.cs" />
+    <Compile Include="ChampionPlugin.cs" />
+    <Compile Include="Interfaces\IItem.cs" />
+    <Compile Include="Interfaces\IHeroAddon.cs" />
+    <Compile Include="InitializeAddon.cs" />
+    <Compile Include="MenuManager.cs" />
+    <Compile Include="Plugins\Draven\AxeObjectData.cs" />
+    <Compile Include="Plugins\Varus\Varus.cs" />
+    <Compile Include="Plugins\Varus\Modes\Combo.cs" />
+    <Compile Include="Plugins\Varus\Modes\Flee.cs" />
+    <Compile Include="Plugins\Varus\Modes\Harass.cs" />
+    <Compile Include="Plugins\Varus\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Varus\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Varus\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Varus\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Sivir\Sivir.cs" />
+    <Compile Include="Plugins\Sivir\Modes\Combo.cs" />
+    <Compile Include="Plugins\Sivir\Modes\Flee.cs" />
+    <Compile Include="Plugins\Sivir\Modes\Harass.cs" />
+    <Compile Include="Plugins\Sivir\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Sivir\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Sivir\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Sivir\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Twitch\Twitch.cs" />
+    <Compile Include="Plugins\Twitch\Modes\Combo.cs" />
+    <Compile Include="Plugins\Twitch\Modes\Flee.cs" />
+    <Compile Include="Plugins\Twitch\Modes\Harass.cs" />
+    <Compile Include="Plugins\Twitch\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Twitch\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Twitch\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Twitch\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Urgot\Urgot.cs" />
+    <Compile Include="Plugins\Urgot\Modes\Combo.cs" />
+    <Compile Include="Plugins\Urgot\Modes\Flee.cs" />
+    <Compile Include="Plugins\Urgot\Modes\Harass.cs" />
+    <Compile Include="Plugins\Urgot\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Urgot\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Urgot\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Urgot\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Tristana\Tristana.cs" />
+    <Compile Include="Plugins\Tristana\Modes\Combo.cs" />
+    <Compile Include="Plugins\Tristana\Modes\Flee.cs" />
+    <Compile Include="Plugins\Tristana\Modes\Harass.cs" />
+    <Compile Include="Plugins\Tristana\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Tristana\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Tristana\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Tristana\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\MissFortune\MissFortune.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\Combo.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\Flee.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\Harass.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\LastHit.cs" />
+    <Compile Include="Plugins\MissFortune\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Quinn\Quinn.cs" />
+    <Compile Include="Plugins\Quinn\Modes\Combo.cs" />
+    <Compile Include="Plugins\Quinn\Modes\Flee.cs" />
+    <Compile Include="Plugins\Quinn\Modes\Harass.cs" />
+    <Compile Include="Plugins\Quinn\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Quinn\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Quinn\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Quinn\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Lucian\Lucian.cs" />
+    <Compile Include="Plugins\Lucian\Modes\Combo.cs" />
+    <Compile Include="Plugins\Lucian\Modes\Flee.cs" />
+    <Compile Include="Plugins\Lucian\Modes\Harass.cs" />
+    <Compile Include="Plugins\Lucian\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Lucian\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Lucian\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Lucian\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Kalista\Kalista.cs" />
+    <Compile Include="Plugins\Kalista\Modes\Combo.cs" />
+    <Compile Include="Plugins\Kalista\Modes\Flee.cs" />
+    <Compile Include="Plugins\Kalista\Modes\Harass.cs" />
+    <Compile Include="Plugins\Kalista\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Kalista\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Kalista\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Kalista\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\KogMaw\KogMaw.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\Combo.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\Flee.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\Harass.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\LastHit.cs" />
+    <Compile Include="Plugins\KogMaw\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Graves\Graves.cs" />
+    <Compile Include="Plugins\Graves\Modes\Combo.cs" />
+    <Compile Include="Plugins\Graves\Modes\Flee.cs" />
+    <Compile Include="Plugins\Graves\Modes\Harass.cs" />
+    <Compile Include="Plugins\Graves\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Graves\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Graves\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Graves\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Jhin\Jhin.cs" />
+    <Compile Include="Plugins\Jhin\Modes\Combo.cs" />
+    <Compile Include="Plugins\Jhin\Modes\Flee.cs" />
+    <Compile Include="Plugins\Jhin\Modes\Harass.cs" />
+    <Compile Include="Plugins\Jhin\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Jhin\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Jhin\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Jhin\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Draven\Draven.cs" />
+    <Compile Include="Plugins\Draven\Modes\Combo.cs" />
+    <Compile Include="Plugins\Draven\Modes\Flee.cs" />
+    <Compile Include="Plugins\Draven\Modes\Harass.cs" />
+    <Compile Include="Plugins\Draven\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Draven\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Draven\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Draven\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Ashe\Ashe.cs" />
+    <Compile Include="Plugins\Ashe\Modes\Combo.cs" />
+    <Compile Include="Plugins\Ashe\Modes\Flee.cs" />
+    <Compile Include="Plugins\Ashe\Modes\Harass.cs" />
+    <Compile Include="Plugins\Ashe\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Ashe\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Ashe\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Ashe\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Corki\Corki.cs" />
+    <Compile Include="Plugins\Corki\Modes\Combo.cs" />
+    <Compile Include="Plugins\Corki\Modes\Flee.cs" />
+    <Compile Include="Plugins\Corki\Modes\Harass.cs" />
+    <Compile Include="Plugins\Corki\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Corki\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Corki\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Corki\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Ezreal\Ezreal.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\Combo.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\Flee.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\Harass.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Ezreal\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Caitlyn\Caitlyn.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\Combo.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\Flee.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\Harass.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Caitlyn\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Jinx\Modes\Combo.cs" />
+    <Compile Include="Plugins\Jinx\Modes\Flee.cs" />
+    <Compile Include="Plugins\Jinx\Modes\Harass.cs" />
+    <Compile Include="Plugins\Jinx\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Jinx\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Jinx\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Jinx\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Jinx\Jinx.cs" />
+    <Compile Include="Plugins\Vayne\Modes\Combo.cs" />
+    <Compile Include="Plugins\Vayne\Modes\Flee.cs" />
+    <Compile Include="Plugins\Vayne\Modes\Harass.cs" />
+    <Compile Include="Plugins\Vayne\Modes\JungleClear.cs" />
+    <Compile Include="Plugins\Vayne\Modes\LaneClear.cs" />
+    <Compile Include="Plugins\Vayne\Modes\LastHit.cs" />
+    <Compile Include="Plugins\Vayne\Modes\PermaActive.cs" />
+    <Compile Include="Plugins\Vayne\Vayne.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ChampionTracker.cs" />
+    <Compile Include="Utils\ColorPicker.cs" />
+    <Compile Include="Utils\DamageIndicator.cs" />
+    <Compile Include="Utils\Enumerators.cs" />
+    <Compile Include="Utils\FileHandler.cs" />
+    <Compile Include="Utils\Gapclosers.cs" />
+    <Compile Include="Utils\IncomingDamage.cs" />
+    <Compile Include="Utils\Interrupter.cs" />
+    <Compile Include="Utils\MenuValues.cs" />
+    <Compile Include="Utils\Misc.cs" />
+    <Compile Include="Utils\ObjAiBaseExtensions.cs" />
+    <Compile Include="Utils\SafeSpotFinder.cs" />
+    <Compile Include="Utils\StaticCacheProvider.cs" />
+    <Compile Include="Utils\TearStacker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
