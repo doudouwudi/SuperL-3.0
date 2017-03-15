@@ -28,7 +28,7 @@
         static HealthPrediction()
         {            
             Obj_AI_Base.OnSpellCast += new Obj_AI_BaseDoCastSpell(Obj_AI_Base_OnDoCast);
-            Obj_AI_Base.OnBasicAttack += new Obj_AI_BaseOnBasicAttack(ObjAiBaseOnOnProcessSpellCast);
+            Obj_AI_Base.OnSpellCast += new Obj_AI_BaseDoCastSpell(ObjAiBaseOnOnProcessSpellCast);
             Spellbook.OnStopCast += new SpellbookStopCast(SpellbookOnStopCast);
             Game.OnTick += new GameTick(Game_OnGameUpdate);
             GameObject.OnDelete += new GameObjectDelete(MissileClient_OnDelete);
@@ -224,7 +224,7 @@
             var attackData = new PredictedDamage(
                 sender,
                 target,
-                Utils.GameTimeTickCount - Game.Ping / 2,
+                (Utils.GameTimeTickCount - 100) - Game.Ping / 2,
                 sender.AttackCastDelay * 1000,
                 sender.AttackDelay * 1000 - (sender is Obj_AI_Turret ? 70 : 0),
                 sender.IsMelee() ? int.MaxValue : (int)args.SData.MissileSpeed,

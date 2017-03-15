@@ -628,6 +628,10 @@
             {
                 return false;
             }
+            if (obj_AI_Base.HasBuff("FizzE"))
+            {
+                return false;
+            }
             if (!range.HasValue)
             {
                 return true;

@@ -161,10 +161,9 @@ namespace LeagueSharp.Common
             Player = ObjectManager.Player;
             _championName = Player.ChampionName;
             Obj_AI_Base.OnProcessSpellCast += new Obj_AI_ProcessSpellCast(OnProcessSpellCast);
-            Obj_AI_Base.OnBasicAttack += new Obj_AI_BaseOnBasicAttack(OnBasicAttack);
+            //Obj_AI_Base.OnBasicAttack += new Obj_AI_BaseOnBasicAttack(OnBasicAttack);
             Obj_AI_Base.OnSpellCast += new Obj_AI_BaseDoCastSpell(Obj_AI_Base_OnDoCast);
             Spellbook.OnStopCast += new SpellbookStopCast(SpellbookOnStopCast);
-            EloBuddy.Player.OnIssueOrder += Player_OnIssueOrder;
 
             if (_championName == "Rengar")
             {
@@ -191,47 +190,6 @@ namespace LeagueSharp.Common
                 GameObject.OnCreate += OnCreate;
                 GameObject.OnDelete += OnDelete;
             }
-        }
-
-        public static int LastMove;
-        public static int NextMovementDelay;
-        public static Vector3 LastMovementPosition = Vector3.Zero;
-
-        private static void Player_OnIssueOrder(Obj_AI_Base sender, PlayerIssueOrderEventArgs args)
-        {
-            var senderValid = sender != null && sender.IsValid && sender.IsMe;
-
-            if (!senderValid || args.Order != GameObjectOrder.MoveTo)
-            {
-                return;
-            }
-            if (LastMovementPosition != Vector3.Zero && args.TargetPosition.Distance(LastMovementPosition) < 300)
-            {
-                if (NextMovementDelay == 0)
-                {
-                    var min = 80;
-                    var max = 250;
-                    NextMovementDelay = min > max ? min : WeightedRandom.Next(min, max);
-                }
-
-                if ((Utils.TickCount - LastMove) < NextMovementDelay)
-                {
-                    NextMovementDelay = 0;
-                    args.Process = false;
-                    return;
-                }
-
-                var wp = ObjectManager.Player.GetWaypoints();
-
-                if (args.TargetPosition.Distance(Player.ServerPosition) < 50)
-                {
-                    args.Process = false;
-                    return;
-                }
-            }
-
-            LastMovementPosition = args.TargetPosition;
-            LastMove = Utils.TickCount;
         }
 
         private static void OnCreate(GameObject sender, EventArgs args)
@@ -393,7 +351,7 @@ namespace LeagueSharp.Common
                 return false;
             }
 
-            /*if (Player.ChampionName == "Graves")
+            if (Player.ChampionName == "Graves")
             {
                 var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
                 if (Core.GameTickCount + Game.Ping / 2 + 25 >= LastAATick + attackDelay && Player.HasBuff("GravesBasicAttackAmmo1"))
@@ -401,7 +359,7 @@ namespace LeagueSharp.Common
                     return true;
                 }
                 return false;
-            }//*/
+            }
 
             if (Player.ChampionName == "Jhin")
             {
@@ -427,7 +385,9 @@ namespace LeagueSharp.Common
                 }
             }
 
-            return Core.GameTickCount + Game.Ping / 2 + 25 >= LastAATick + Player.AttackDelay * 1000;
+
+
+            return Core.GameTickCount + Game.Ping / 2 + 25 >= (LastAATick - 100) + Player.AttackDelay * 1000;
         }
 
         /// <summary>
@@ -510,7 +470,7 @@ namespace LeagueSharp.Common
         public static float GetRealAutoAttackRange(AttackableUnit target = null)
         {
             var result = EloBuddy.Player.Instance.GetAutoAttackRange(null);
-            if (target.IsValidTarget() && target != null)
+            if (target != null)
             {
                 var aiBase = target as Obj_AI_Base;
                 if (aiBase != null && Player.ChampionName == "Caitlyn")
@@ -534,7 +494,7 @@ namespace LeagueSharp.Common
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool InAutoAttackRange(AttackableUnit target)
         {
-            if (!target.IsValidTarget() || target == null)
+            if (target == null)
             {
                 return false;
             }
@@ -675,7 +635,6 @@ namespace LeagueSharp.Common
                                 LastAttackCommandT = Core.GameTickCount;
                                 _lastTarget = target;
                             }
-
                             return;
                         }
                     }
@@ -828,10 +787,17 @@ namespace LeagueSharp.Common
 
             if (IsAutoAttack(args.SData.Name))
             {
+                LastAATick = Core.GameTickCount - Game.Ping / 2;
+                _missileLaunched = false;
+                LastMoveCommandT = 0;
+                _autoattackCounter++;
+
                 FireAfterAttack(sender, args.Target as AttackableUnit);
                 _missileLaunched = true;
             }
         }
+
+        public static bool onplay = false;
 
         /// <summary>
         ///     Handles the <see cref="E:ProcessSpell" /> event.
@@ -1263,7 +1229,7 @@ namespace LeagueSharp.Common
 
                         if (enemyGangPlank != null)
                         {
-                            var barrels = ObjectManager.Get<Obj_AI_Base>().Where(minion => minion.CharData.BaseSkinName == "GangplankBarrel" && minion.IsValidTarget() && this.InAutoAttackRange(minion));
+                            var barrels = ObjectManager.Get<Obj_AI_Base>().Where(minion => minion.CharData.BaseSkinName == "GangplankBarrel" && this.InAutoAttackRange(minion));
 
                             foreach (var barrel in barrels)
                             {
@@ -1309,7 +1275,7 @@ namespace LeagueSharp.Common
                 {
                     var MinionList =
                         EntityManager.MinionsAndMonsters.EnemyMinions
-                            .Where(minion => minion.IsValidTarget() && this.InAutoAttackRange(minion))
+                            .Where(minion => minion != null && this.InAutoAttackRange(minion))
                             .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                             .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
                             .ThenBy(minion => minion.Health)
@@ -1372,7 +1338,7 @@ namespace LeagueSharp.Common
                 {
                     /* turrets */
                     foreach (var turret in
-                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return turret;
                     }
@@ -1380,14 +1346,14 @@ namespace LeagueSharp.Common
                     /* inhibitor */
                     foreach (var turret in
                         ObjectManager.Get<Obj_BarracksDampener>()
-                            .Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                            .Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return turret;
                     }
 
                     /* nexus */
                     foreach (var nexus in
-                        ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_HQ>().Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return nexus;
                     }
@@ -1443,7 +1409,7 @@ namespace LeagueSharp.Common
                         var minions =
                             MinionManager.GetMinions(this.Player.Position, this.Player.AttackRange + 200)
                                 .Where(
-                                    minion =>
+                                    minion => minion != null &&
                                     this.InAutoAttackRange(minion) && ClosestTower.Distance(minion, true) < 900 * 900)
                                 .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                                 .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
@@ -1623,7 +1589,7 @@ namespace LeagueSharp.Common
                     {
                         if (this._prevMinion != null)
                         {
-                            if (!this._prevMinion.IsDead && this._prevMinion.IsValidTarget() && this.InAutoAttackRange(this._prevMinion))
+                            if (!this._prevMinion.IsDead && this.InAutoAttackRange(this._prevMinion))
                             {
                                 var predHealth = HealthPrediction.LaneClearHealthPrediction(
                                     this._prevMinion,
@@ -1641,7 +1607,7 @@ namespace LeagueSharp.Common
                         result = (from minion in
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
-                                          minion => minion.IsValidTarget() && this.InAutoAttackRange(minion)
+                                          minion => minion != null && this.InAutoAttackRange(minion)
                                           && this.ShouldAttackMinion(minion) && !minion.BaseSkinName.Contains("Plant"))
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(

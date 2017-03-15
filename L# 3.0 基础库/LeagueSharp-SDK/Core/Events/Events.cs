@@ -127,7 +127,6 @@ namespace LeagueSharp.SDK
         /// </param>
         private static void OnUpdate(EventArgs args)
         {
-            EventLoad();
             EventGapcloser();
             EventInterruptableSpell();
         }

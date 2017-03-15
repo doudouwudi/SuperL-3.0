@@ -15,6 +15,7 @@
     using Font = SharpDX.Direct3D9.Font;
     using Rectangle = SharpDX.Rectangle;
     using EloBuddy;
+    using EloBuddy.SDK;
 
     /// <summary>
     ///     The render class allows you to draw stuff using SharpDX easier.
@@ -718,6 +719,7 @@
                     Drawing.OnPreReset += OnPreReset;
                     Drawing.OnPreReset += OnPostReset;
                     AppDomain.CurrentDomain.DomainUnload += Dispose;
+                    AppDomain.CurrentDomain.ProcessExit += Dispose;
                 }
             }
 
@@ -900,13 +902,18 @@
             /// <param name="color">The color.</param>
             public Line(Vector2 start, Vector2 end, int width, ColorBGRA color)
             {
-                this._line = new SharpDX.Direct3D9.Line(Device);
+                this._line = new SharpDX.Direct3D9.Line(Drawing.Direct3DDevice);
                 this.Width = width;
                 this.Color = color;
                 this.Start = start;
                 this.End = end;
                 Game.OnUpdate += this.GameOnOnUpdate;
                 this.SubscribeToResetEvents();
+
+                AppDomain.CurrentDomain.DomainUnload += Dispose;
+                AppDomain.CurrentDomain.ProcessExit += Dispose;
+                Drawing.OnPreReset += OnPreReset;
+                Drawing.OnPostReset += OnPostReset;
             }
 
             #endregion
@@ -971,7 +978,7 @@
             /// <summary>
             ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             /// </summary>
-            public override void Dispose()
+            public void Dispose(object sender, EventArgs e)
             {
                 this.OnPreReset();
                 if (!this._line.IsDisposed)
@@ -1006,7 +1013,7 @@
             /// <summary>
             ///     Called after the DirectX is reset.
             /// </summary>
-            public override void OnPostReset()
+            public void OnPostReset(EventArgs args)
             {
                 this._line.OnResetDevice();
             }
@@ -1014,9 +1021,17 @@
             /// <summary>
             ///     Called before the DirectX device is reset.
             /// </summary>
-            public override void OnPreReset()
+            public void OnPreReset(EventArgs args)
             {
                 this._line.OnLostDevice();
+            }
+
+            /// <summary>
+            ///     Called after the DirectX device is reset.
+            /// </summary>
+            public override void OnPostReset()
+            {
+                this._line.OnResetDevice();
             }
 
             #endregion
@@ -1079,9 +1094,13 @@
                 this.Width = width;
                 this.Height = height;
                 this.Color = color;
-                this._line = new SharpDX.Direct3D9.Line(Device) { Width = height };
+                this._line = new SharpDX.Direct3D9.Line(Drawing.Direct3DDevice) { Width = height };
                 Game.OnUpdate += this.Game_OnUpdate;
                 this.SubscribeToResetEvents();
+                AppDomain.CurrentDomain.DomainUnload += Dispose;
+                AppDomain.CurrentDomain.ProcessExit += Dispose;
+                Drawing.OnPreReset += OnPreReset;
+                Drawing.OnPostReset += OnPostReset;
             }
 
             #endregion
@@ -1135,7 +1154,7 @@
             /// <summary>
             ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             /// </summary>
-            public override void Dispose()
+            public void Dispose(object sender, EventArgs e)
             {
                 this.OnPreReset();
                 if (!this._line.IsDisposed)
@@ -1176,7 +1195,7 @@
             /// <summary>
             ///     Called after the DirectX device is reset.
             /// </summary>
-            public override void OnPostReset()
+            public void OnPostReset(EventArgs args)
             {
                 this._line.OnResetDevice();
             }
@@ -1184,7 +1203,7 @@
             /// <summary>
             ///     Called before the DirectX device is reset.
             /// </summary>
-            public override void OnPreReset()
+            public void OnPreReset(EventArgs args)
             {
                 this._line.OnLostDevice();
             }
@@ -1238,7 +1257,7 @@
 
             ~RenderObject()
             {
-                //this.OnPreReset();
+                this.OnPreReset();
             }
 
             #endregion
@@ -1329,6 +1348,7 @@
                 Drawing.OnPreReset += delegate { this.OnPreReset(); };
                 Drawing.OnPostReset += delegate { this.OnPostReset(); };
                 AppDomain.CurrentDomain.DomainUnload += delegate { this.OnPreReset(); };
+                AppDomain.CurrentDomain.ProcessExit += delegate { this.OnPreReset(); };
             }
 
             #endregion
@@ -1340,11 +1360,18 @@
         public class Sprite : RenderObject
         {
             #region Fields
-
             /// <summary>
             ///     The DirectX sprite
             /// </summary>
-            private readonly SharpDX.Direct3D9.Sprite _sprite = new SharpDX.Direct3D9.Sprite(Device);
+            //private SharpDX.Direct3D9.Sprite _sprite = new SharpDX.Direct3D9.Sprite(Drawing.Direct3DDevice);
+
+            internal SharpDX.Direct3D9.Sprite _sprite { get; set; }
+
+            internal static bool IsDrawing { get; set; }
+            internal static bool IsOnEndScene { get; set; }
+            internal delegate void MenuDrawHandler(EventArgs args);
+
+            internal static event MenuDrawHandler OnMenuDraw;
 
             /// <summary>
             ///     The color of the sprite.
@@ -1447,10 +1474,112 @@
             /// </summary>
             private Sprite()
             {
+                _sprite = new SharpDX.Direct3D9.Sprite(Drawing.Direct3DDevice);
+
                 Game.OnUpdate += this.Game_OnUpdate;
                 this.SubscribeToResetEvents();
+
+                AppDomain.CurrentDomain.DomainUnload += Dispose;
+                AppDomain.CurrentDomain.ProcessExit += Dispose;
+                Drawing.OnPreReset += OnPreReset;
+                Drawing.OnPostReset += OnPostReset;
+
+                Drawing.OnEndScene += OnEndScene;
+                Drawing.OnFlushEndScene += OnFlush;
             }
 
+            internal void OnEndScene(EventArgs args)
+            {
+                IsOnEndScene = true;
+            }
+
+            internal void OnAppDomainUnload(object sender, EventArgs eventArgs)
+            {
+                Dispose();
+
+                if (this._sprite != null)
+                {
+                    EndAllDrawing();
+                    this._sprite.Dispose();
+                    this._sprite = null;
+                }
+            }
+
+            internal void EndAllDrawing(RenderingType exclusion = RenderingType.None)
+            {
+                if (exclusion != RenderingType.Sprite)
+                {
+                    if (IsDrawing)
+                    {
+                        this._sprite.End();
+                        IsDrawing = false;
+                    }
+                }
+            }
+
+            internal void OnFlush(EventArgs args)
+            {
+                if (IsOnEndScene && OnMenuDraw != null)
+                {
+                    IsOnEndScene = false;
+                    OnMenuDraw(EventArgs.Empty);
+                }
+
+                if (IsDrawing)
+                {
+                    this._sprite.End();
+                    IsDrawing = false;
+                }
+            }
+
+            internal enum RenderingType
+            {
+                None,
+                Sprite,
+                Line
+            }
+
+            public override void OnEndScene()
+            {
+                try
+                {
+                    if (this._sprite.IsDisposed || this._texture.IsDisposed || !this.Position.IsValid() || this._hide)
+                    {
+                        return;
+                    }
+
+                    this._sprite.Begin();
+                    var matrix = this._sprite.Transform;
+                    var nMatrix = (Matrix.Scaling(this.Scale.X, this.Scale.Y, 0)) * Matrix.RotationZ(this.Rotation)
+                                  * Matrix.Translation(this.Position.X, this.Position.Y, 0);
+                    this._sprite.Transform = nMatrix;
+                    this._sprite.Draw(this._texture, this._color, this._crop);
+                    this._sprite.Transform = matrix;
+                    this._sprite.End();
+                }
+                catch (Exception e)
+                {
+                    this.Reset();
+                    Console.WriteLine(@"Common.Render.Sprite.OnEndScene: " + e);
+                }
+            }
+
+            internal void OnPreReset(EventArgs args)
+            {
+                this._sprite.OnLostDevice();
+            }
+
+            internal void OnPostReset(EventArgs args)
+            {
+                this._sprite.OnResetDevice();
+            }
+            /// <summary>
+            ///     Called after the DirectX device is reset.
+            /// </summary>
+            public override void OnPostReset()
+            {
+                //    this._sprite.OnResetDevice();
+            }
             #endregion
 
             #region Delegates
@@ -1652,13 +1781,13 @@
             /// <summary>
             ///     Disposes this instance.
             /// </summary>
-            public override void Dispose()
+            public void Dispose(object sender, EventArgs e) //(object sender, EventArgs e)
             {
                 this.OnPreReset();
                 Game.OnUpdate -= this.Game_OnUpdate;
-                if (!this._sprite.IsDisposed)
+                if (!_sprite.IsDisposed)
                 {
-                    this._sprite.Dispose();
+                    _sprite.Dispose();
                 }
 
                 if (!this._texture.IsDisposed)
@@ -1670,6 +1799,9 @@
                 {
                     this._originalTexture.Dispose();
                 }
+
+                AppDomain.CurrentDomain.DomainUnload -= OnAppDomainUnload;
+                AppDomain.CurrentDomain.ProcessExit -= OnAppDomainUnload;
             }
 
             /// <summary>
@@ -1694,50 +1826,6 @@
             public void Hide()
             {
                 this._hide = true;
-            }
-
-            /// <summary>
-            ///     Called when the scene has ended.
-            /// </summary>
-            public override void OnEndScene()
-            {
-                try
-                {
-                    if (this._sprite.IsDisposed || this._texture.IsDisposed || !this.Position.IsValid() || this._hide)
-                    {
-                        return;
-                    }
-
-                    this._sprite.Begin();
-                    var matrix = this._sprite.Transform;
-                    var nMatrix = (Matrix.Scaling(this.Scale.X, this.Scale.Y, 0)) * Matrix.RotationZ(this.Rotation)
-                                  * Matrix.Translation(this.Position.X, this.Position.Y, 0);
-                    this._sprite.Transform = nMatrix;
-                    this._sprite.Draw(this._texture, this._color, this._crop);
-                    this._sprite.Transform = matrix;
-                    this._sprite.End();
-                }
-                catch (Exception e)
-                {
-                    this.Reset();
-                    Console.WriteLine(@"Common.Render.Sprite.OnEndScene: " + e);
-                }
-            }
-
-            /// <summary>
-            ///     Called after the DirectX device is reset.
-            /// </summary>
-            public override void OnPostReset()
-            {
-                this._sprite.OnResetDevice();
-            }
-
-            /// <summary>
-            ///     Called before the DirectX device is reset..
-            /// </summary>
-            public override void OnPreReset()
-            {
-                this._sprite.OnLostDevice();
             }
 
             /// <summary>
@@ -2055,14 +2143,23 @@
                 this._textFont = new Font(
                     Device,
                     new FontDescription
-                        {
-                            FaceName = fontName, Height = size, OutputPrecision = FontPrecision.Default,
-                            Quality = FontQuality.Default
-                        });
+                    {
+                        FaceName = fontName,
+                        Height = size,
+                        OutputPrecision = FontPrecision.Default,
+                        Quality = FontQuality.Default
+                    });
                 this.Color = color;
                 this.text = text;
                 Game.OnUpdate += this.Game_OnUpdate;
                 this.SubscribeToResetEvents();
+
+                //AppDomain.CurrentDomain.DomainUnload += delegate { OnPreReset(); };
+                //AppDomain.CurrentDomain.ProcessExit += delegate { OnPreReset(); };
+                AppDomain.CurrentDomain.DomainUnload += OnUnload;
+                AppDomain.CurrentDomain.ProcessExit += OnUnload;
+                Drawing.OnPreReset += OnPreReset;
+                Drawing.OnPostReset += OnPostReset;
             }
 
             #endregion
@@ -2224,10 +2321,19 @@
             {
                 Game.OnUpdate -= this.Game_OnUpdate;
                 this.OnPreReset();
-                if (!this._textFont.IsDisposed)
+                if (this._textFont != null && !this._textFont.IsDisposed)
                 {
-                    this._textFont.Dispose();
+                    this._textFont?.Dispose();
                 }
+                Drawing.OnPreReset -= OnPreReset;
+                Drawing.OnPostReset -= OnPostReset;
+                AppDomain.CurrentDomain.ProcessExit -= OnUnload;
+                AppDomain.CurrentDomain.DomainUnload -= OnUnload;
+            }
+
+            internal void OnUnload(object sender, EventArgs e)
+            {
+                Dispose();
             }
 
             /// <summary>
@@ -2270,17 +2376,22 @@
             /// <summary>
             ///     Called after the DirectX device has been reset.
             /// </summary>
+            public void OnPostReset(EventArgs args)
+            {
+                this._textFont?.OnResetDevice();
+            }
+
             public override void OnPostReset()
             {
-                this._textFont.OnResetDevice();
+                this._textFont?.OnResetDevice();
             }
 
             /// <summary>
             ///     Called before the DirectX device is reset.
             /// </summary>
-            public override void OnPreReset()
+            public void OnPreReset(EventArgs args)
             {
-                this._textFont.OnLostDevice();
+                this._textFont?.OnLostDevice();
             }
 
             #endregion

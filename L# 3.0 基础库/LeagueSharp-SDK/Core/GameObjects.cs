@@ -20,10 +20,15 @@ namespace LeagueSharp.SDK
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using LeagueSharp.SDK.Enumerations;
-    using LeagueSharp.SDK.Utils;
+    using LeagueSharp.SDK;
+    using EloBuddy.SDK.Events;
+    using EloBuddy.SDK.Menu.Values;
+    using EloBuddy.SDK.Menu;
+    using EloBuddy.SDK;
     using EloBuddy;
+    using Enumerations;
+    using Polygons;
+    using Utils;
 
     /// <summary>
     ///     A static (stack) class which contains a sort-of cached versions of the important game objects.
@@ -449,8 +454,7 @@ namespace LeagueSharp.SDK
             InhibitorsList.AddRange(ObjectManager.Get<Obj_BarracksDampener>());
             JungleList.AddRange(
                 ObjectManager.Get<Obj_AI_Minion>()
-                    .Where(
-                        o => o.Team == GameObjectTeam.Neutral && o.Name != "WardCorpse" && o.Name != "Barrel"));
+                    .Where(o => o.Team == GameObjectTeam.Neutral && o.Name != "WardCorpse"));
             WardsList.AddRange(
                 ObjectManager.Get<Obj_AI_Minion>().Where(o => o.GetMinionType().HasFlag(MinionTypes.Ward)));
             ShopsList.AddRange(ObjectManager.Get<Obj_Shop>());
@@ -562,7 +566,7 @@ namespace LeagueSharp.SDK
                         }
                     }
                 }
-                else if (minion.Name != "WardCorpse" && minion.Name != "Barrel")
+                else if (minion.Name != "WardCorpse")
                 {
                     JungleList.Add(minion);
                     switch (minion.GetJungleType())
@@ -586,7 +590,6 @@ namespace LeagueSharp.SDK
             if (particle != null)
             {
                 ParticleEmittersList.Add(particle);
-
                 return;
             }
 

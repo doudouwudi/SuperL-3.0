@@ -248,6 +248,8 @@
 
             if (AutoAttack.IsAutoAttack(args.SData.Name))
             {
+                LastAutoAttackTick = (Variables.TickCount - 450) - Game.Ping / 2;
+                lastMovementOrderTick = 0;
                 this.InvokeActionAfterAttack();
             }
 
@@ -771,7 +773,7 @@
             if (this.mainMenu["drawings"]["drawAARangeEnemy"])
             {
                 foreach (var enemy in
-                    GameObjects.EnemyHeroes.Where(
+                    EloBuddy.SDK.EntityManager.Enemies.Where(
                         e => e.IsValidTarget() && e.Position.IsOnScreen(e.GetRealAutoAttackRange(GameObjects.Player))))
                 {
                     Render.Circle.DrawCircle(
@@ -1306,7 +1308,7 @@
 
                 // Special Minions if no enemy is near
                 if (mode == OrbwalkingMode.Combo && minions.Any()
-                    && !GameObjects.EnemyHeroes.Any(
+                    && !EloBuddy.SDK.EntityManager.Enemies.Any(
                         e => e.IsValidTarget() && e.DistanceToPlayer() < e.GetRealAutoAttackRange() * 2f))
                 {
                     return minions.FirstOrDefault();

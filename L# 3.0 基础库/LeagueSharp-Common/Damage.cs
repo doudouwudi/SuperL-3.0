@@ -1811,8 +1811,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {70, 115, 160, 205, 250}[level]
-                                + 0.6*source.FlatPhysicalDamageMod
+                                new double[] {10, 35, 60, 95, 120}[level]
+                                + 1.1 * source.TotalAttackDamage
                     },
                     //W
                     new DamageSpell
@@ -1821,8 +1821,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {60, 95, 130, 165, 200}[level]
-                                + source.FlatPhysicalDamageMod
+                                new double[] {30, 60, 90, 120, 150}[level]
+                                + 0.75 * source.FlatPhysicalDamageMod
                     },
                     //E
                     new DamageSpell
@@ -1831,9 +1831,9 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {75, 110, 145, 180, 215}[level]
+                                new double[] {70, 110, 150, 190, 230}[level]
                                 + 0.6*source.TotalMagicalDamage
-                                + 0.6*source.FlatPhysicalDamageMod
+                                + 0.7*source.FlatPhysicalDamageMod
                     },
                     //R
                     new DamageSpell
@@ -4319,7 +4319,7 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage = (source, target, level) =>
                         {
-                            var count = target.GetBuffCount("kalistaexpungemarker");
+                            var count = target.Buffs.FirstOrDefault(x => x.Name == "kalistaexpungemarker").Count;
                             if (count > 0)
                             {
                                 return (new double[] {20, 30, 40, 50, 60}[level]
@@ -4410,8 +4410,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {85, 125, 165, 205, 245}[level]
-                                + 0.4*source.TotalMagicalDamage
+                                new double[] {40, 55, 70, 86, 100}[level]
+                                + 0.2*source.TotalMagicalDamage
                     },
                     //W . explosion (passive)
                     new DamageSpell
@@ -4878,9 +4878,9 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {40, 70, 100, 130, 160}[level]
-                                + 0.5*source.TotalMagicalDamage
-                                + source.TotalAttackDamage
+                                new double[] {20, 35, 50, 65, 80}[level]
+                                + 0.35*source.TotalMagicalDamage
+                                + 0.85*source.TotalAttackDamage
                     },
                     //W
                     new DamageSpell
